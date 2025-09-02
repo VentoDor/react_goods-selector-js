@@ -19,57 +19,70 @@ export const goods = [
 export const App = () => {
   const [value, setValue] = useState('Jam');
 
+  const handleSelect = (name) => {
+    setValue(name);
+  };
+
+  const handleClear = () => {
+    setValue('');
+  };
+
   return (
     <main className="section container">
-    {value
-      ? (
+      {value ? (
         <h1 className="title is-flex is-align-items-center">
           {value} is selected
           <button
             data-cy="ClearButton"
             type="button"
             className="delete ml-3"
-            onClick={() => setValue('')}
+            onClick={handleClear}
           />
         </h1>
       ) : (
-        <h1 className="title is-flex is-align-items-center">No goods selected</h1>
+        <h1 className="title is-flex is-align-items-center">
+          No goods selected
+        </h1>
       )}
 
-    <table className="table">
-      <tbody>
-        {goods.map((n) => (
-          <tr data-cy="Good" key={n} className={classNames({
-            'has-background-success-light': n === value
-          })}>
-            <td>
-              {n === value ? (
-                <button
-                  data-cy="RemoveButton"
-                  type="button"
-                  onClick={() => setValue('')}
-                  className="button is-info"
-                >
-                  -
-                </button>
-              ) : (
-                <button
-                  data-cy="AddButton"
-                  type="button"
-                  onClick={() => setValue(n)}
-                  className="button"
-                >
-                  +
-                </button>
-              )}
-            </td>
-            <td data-cy="GoodTitle" className="is-vcentered">
-              {n}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </main>
-  )
+      <table className="table">
+        <tbody>
+          {goods.map(n => (
+            <tr
+              data-cy="Good"
+              key={n}
+              className={classNames({
+                'has-background-success-light': n === value,
+              })}
+            >
+              <td>
+                {n === value ? (
+                  <button
+                    data-cy="RemoveButton"
+                    type="button"
+                    onClick={handleClear}
+                    className="button is-info"
+                  >
+                    -
+                  </button>
+                ) : (
+                  <button
+                    data-cy="AddButton"
+                    type="button"
+                    onClick={() => handleSelect(n)}
+                    className="button"
+                  >
+                    +
+                  </button>
+                )}
+              </td>
+              <td data-cy="GoodTitle" className="is-vcentered">
+                {n}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </main>
+  );
 };
